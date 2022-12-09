@@ -2,12 +2,12 @@
   "name": "ecovision-backend",
   "version": "1.0.0",
   "engines": {
-    "node": "18.x"
+    "node": "16.14.2"
   },
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
