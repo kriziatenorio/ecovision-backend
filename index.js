@@ -4,21 +4,22 @@ const server = express()
 const cors = require("cors")
 const port = process.env.PORT
 
+// * Models
+// const db = require('./models');
+
 // * middlewares
 const corsOption = {
-    origin: ['http://localhost:3000']
+    origin: ['http://127.0.0.1:3000']
 };
 
 server.use(cors(corsOption))
 server.use(express.json())
 
-server.get('/', (req, res) => {
-    res.json("hello")
-});
-
-server.post('/api/login', (req, res) => {
-    res.json(req.body)
-});
+// Routes
+const listingsController = require('./controllers/listingsController')
+const usersController = require('./controllers/UsersController')
+server.use('/api/listings', listingsController)
+server.use('/api/users', usersController)
 
 server.listen(port, (err) => {
     if(err) throw err
