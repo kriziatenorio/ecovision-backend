@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 // * Firebase Configs
 const admin = require('../config/firebase-admin')
-// const { ref, set } = require("firebase-admin"); // getDatabase for not admin
+const { ref, set, onValue } = require("firebase-admin"); // getDatabase for not admin
 const db = admin.database()
 
 const firebase = require('../config/firebase') // * firebase app configuration
@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
                 .then(() => {
                     res.status(200).json({ 
                         success: true, 
-                        message: `${name} is registered successfully`,
+                        message: `You have registered successfully`,
                         data: userCredential
                     })
                 })
@@ -85,7 +85,14 @@ router.get('/details', async (req, res) => {
 
     await admin.auth().getUserByEmail(data.email)
         .then(record => {
-            res.json(record)
+            let getRef = db.ref(`users/${record.uid}`)
+
+            getRef.on('value', snapshot => {
+                let user = snapshot.val()
+                res.json({ record, user })
+            }, errorObject => {
+                res.json(errorObject)
+            })
         })
         .catch(err => res.json(err))
 })
