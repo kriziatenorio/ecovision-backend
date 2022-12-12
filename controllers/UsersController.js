@@ -69,16 +69,16 @@ router.post('/login', async (req, res) => {
         .catch(err => res.json(err))
 })
 
-// router.post('/logout', (req, res) => {
-//     auth.signOut()
-//         .then(() => {
-//             res.json({
-//                 success: true,
-//                 message: "Sign out successfully"
-//             })
-//         })
-//         .catch(err => res.json(err))
-// })
+router.post('/logout', async (req, res) => {
+    await auth.signOut()
+        .then(() => {
+            res.json({
+                success: true,
+                message: "Sign out successfully"
+            })
+        })
+        .catch(err => res.json(err))
+})
 
 router.get('/details', async (req, res) => {
     let data = req.body
