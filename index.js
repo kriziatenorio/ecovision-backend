@@ -6,7 +6,7 @@ const port = process.env.PORT
 
 // * middlewares
 const corsOption = {
-    origin: ['*']
+    origin: ['http://127.0.0.1:3000', 'https://ecovision-three.vercel.app']
 };
 
 server.use(cors(corsOption))
