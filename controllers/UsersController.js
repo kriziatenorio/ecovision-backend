@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 // * Firebase Configs
 const admin = require('../config/firebase-admin')
-const { ref, set } = require("firebase-admin"); // getDatabase for not admin
+// const { ref, set } = require("firebase-admin"); // getDatabase for not admin
 const db = admin.database()
 
 const firebase = require('../config/firebase') // * firebase app configuration
@@ -28,7 +28,11 @@ router.post('/register', (req, res) => {
 
             postRef.set({ name: name, createdAt: Date.now() })
                 .then(() => {
-                    res.status(200).json({ success: true, message: `${name} is registered successfully` })
+                    res.status(200).json({ 
+                        success: true, 
+                        message: `${name} is registered successfully`,
+                        data: userCredential
+                    })
                 })
                 .catch(err => res.status(404).json({ success: false, message: err }))
         })
@@ -56,10 +60,11 @@ router.post('/login', async (req, res) => {
 
     signInWithEmailAndPassword(auth, data.email, data.password)
         .then(userCredential => {
-            res.json({
-                success: true,
-                message: `Welcome back ${userCredential._tokenResponse.displayName}!`
-            })
+            res.json(userCredential)
+            // res.json({
+            //     success: true,
+            //     message: `Welcome back ${userCredential._tokenResponse.displayName}!`
+            // })
         })
         .catch(err => res.json(err))
 })
