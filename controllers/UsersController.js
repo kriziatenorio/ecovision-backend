@@ -54,20 +54,20 @@ router.post('/register', async (req, res) => {
     // }).catch(err => res.status(500).json(err))
 });
 
-// // * LOGIN USER
-// router.post('/login', async (req, res) => {
-//     let data = req.body
+// * LOGIN USER
+router.post('/login', async (req, res) => {
+    let data = req.body
 
-//     signInWithEmailAndPassword(auth, data.email, data.password)
-//         .then(userCredential => {
-//             res.json(userCredential)
-//             // res.json({
-//             //     success: true,
-//             //     message: `Welcome back ${userCredential._tokenResponse.displayName}!`
-//             // })
-//         })
-//         .catch(err => res.json(err))
-// })
+    await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then(userCredential => {
+            res.json({
+                success: true,
+                message: `Welcome back ${userCredential._tokenResponse.displayName}!`,
+                data: userCredential
+            })
+        })
+        .catch(err => res.json(err))
+})
 
 // router.post('/logout', (req, res) => {
 //     auth.signOut()
