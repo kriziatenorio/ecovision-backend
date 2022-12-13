@@ -11,12 +11,7 @@ const corsOption = {
 
 server.use(cors(corsOption))
 server.use(express.json())
-
-// Routes
-// const listingsController = require('./controllers/listingsController')
-const usersController = require('./controllers/UsersController')
-// server.use('/api/listings', listingsController)
-server.use('/api/users', usersController)
+server.use(require('./routes/api')) // * Routers
 
 server.get('/', (req, res) => {
     res.json({

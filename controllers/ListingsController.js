@@ -1,18 +1,20 @@
 const router = require('express').Router()
-const { getDatabase, ref, child, push, update, set, remove, onValue } = require("firebase/database");
+const { getDatabase, ref, child, push, update, set, remove, onValue, query, orderByValue } = require("firebase/database");
 const firebase = require('../config/firebase')
 
 const db = getDatabase(firebase);
 
 router.get("/", (req, res) => {
     let getRef = ref(db, "listings")
-    onValue(getRef, snapshot => {
+
+    let sort = query(getRef, orderByValue('title'))
+    onValue(sort, snapshot => {
         res.json(snapshot)
     })
 })
 
 // * STORE
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     let data = req.body
 
     let params = {
@@ -30,7 +32,7 @@ router.post("/", (req, res) => {
     const postRef = ref(db, 'listings')
     const newPostRef = push(postRef)
     
-    set(newPostRef, params)
+    await set(newPostRef, params)
         .then(() => {
             res.json({ success: true, message: `${data.title} added successfully` })
         })
@@ -48,7 +50,7 @@ router.get("/:id", (req, res) => {
 })
 
 // * UPDATE
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
     let data = req.body
 
     let params = {
@@ -62,20 +64,20 @@ router.put("/:id", (req, res) => {
         payment: data.payment
     }
 
-    update(ref(db, 'listings/' + req.params.id), params)
-        .then(() => {
-            res.json({ success: true, message: `${data.title} updated successfully` })
-        })
-        .catch(err => {
-            res.json({ success: false, message: err })
-        });
+    await update(ref(db, 'listings/' + req.params.id), params)
+    .then(() => {
+        res.json({ success: true, message: `${data.title} updated successfully` })
+    })
+    .catch(err => {
+        res.json({ success: false, message: err })
+    })
 })
 
 // * DELETE
-router.delete("/:key", (req, res) => {
+router.delete("/:key", async (req, res) => {
     const deleteRef = ref(db, 'listings/' + req.params.key)
 
-    remove(deleteRef)
+    await remove(deleteRef)
         .then(() => {
             res.json({ success: true, message: "Listing deleted successfully" })
         })
