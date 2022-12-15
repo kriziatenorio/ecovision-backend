@@ -40,7 +40,6 @@ router.post("/", async (req, res) => {
     const postRef = ref(db, 'listings')
     const newPostRef = push(postRef)
     
-
     await set(newPostRef, params)
         .then(() => {
 
@@ -61,6 +60,11 @@ router.get("/:id", (req, res) => {
 
 // * UPDATE
 router.put("/:id", async (req, res) => {
+    let photos = fileUploads(req.files)
+    if(photos.success === false){
+        res.status(404).json(photos)
+    }
+
     let data = req.body
 
     let params = {
@@ -69,7 +73,7 @@ router.put("/:id", async (req, res) => {
         condition: data.condition,
         price: data.price,
         description: data.description,
-        photos: data.photos,
+        photos: photos,
         shipping: data.shipping,
         payment: data.payment
     }
