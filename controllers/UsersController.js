@@ -15,7 +15,7 @@ const bcrypt = require('bcrypt')
 const salt = 10
 
 // * utilities
-const fixedName = require('../helpers/util')
+const { fixedName } = require('../helpers/util')
 
 router.post('/register', async (req, res) => {
     let data = req.body

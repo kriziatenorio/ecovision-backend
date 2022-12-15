@@ -1,8 +1,11 @@
 const router = require('express').Router()
+const { async } = require('@firebase/util');
 const { getDatabase, ref, child, push, update, set, remove, onValue, query, orderByValue } = require("firebase/database");
 const firebase = require('../config/firebase')
 
 const db = getDatabase(firebase);
+
+const { generateRandomString, fileUploads } = require('../helpers/util')
 
 router.get("/", (req, res) => {
     let getRef = ref(db, "listings")
@@ -15,6 +18,11 @@ router.get("/", (req, res) => {
 
 // * STORE
 router.post("/", async (req, res) => {
+    let photos = fileUploads(req.files)
+    if(photos.success === false){
+        res.status(404).json(photos)
+    }
+
     let data = req.body
 
     let params = {
@@ -23,7 +31,7 @@ router.post("/", async (req, res) => {
         condition: data.condition,
         price: data.price,
         description: data.description,
-        photos: data.photos,
+        photos: photos,
         shipping: data.shipping,
         payment: data.payment,
         // user: data.user
@@ -32,8 +40,10 @@ router.post("/", async (req, res) => {
     const postRef = ref(db, 'listings')
     const newPostRef = push(postRef)
     
+
     await set(newPostRef, params)
         .then(() => {
+
             res.json({ success: true, message: `${data.title} added successfully` })
         })
         .catch(err => {

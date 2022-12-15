@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const server = express()
 const cors = require("cors")
 const port = process.env.PORT
@@ -9,8 +10,10 @@ const corsOption = {
     origin: ['http://127.0.0.1:3000', 'https://ecovision-three.vercel.app']
 };
 
+server.use(fileUpload())
 server.use(cors(corsOption))
-server.use(express.json())
+server.use(express.static('public'))
+// server.use(express.json())
 server.use(require('./routes/api')) // * Routers
 
 server.get('/', (req, res) => {
