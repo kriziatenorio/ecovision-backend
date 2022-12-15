@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
 // * STORE
 router.post("/", async (req, res) => {
     let photos = fileUploads(req.files)
+
     if(photos.success === false){
         res.status(404).json(photos)
     }
@@ -61,6 +62,7 @@ router.get("/:id", (req, res) => {
 // * UPDATE
 router.put("/:id", async (req, res) => {
     let photos = fileUploads(req.files)
+    
     if(photos.success === false){
         res.status(404).json(photos)
     }
