@@ -19,7 +19,7 @@ const { fixedName } = require('../helpers/util')
 
 router.post('/register', async (req, res) => {
     let data = req.body
-    console.log(data)
+    // console.log(data)
     
     let name = fixedName(data.name)
     let password = data.password; // bcrypt.hashSync(data.password, salt) // * hash password here
