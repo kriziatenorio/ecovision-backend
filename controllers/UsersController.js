@@ -17,11 +17,6 @@ const salt = 10
 // * utilities
 const { fixedName } = require('../helpers/util')
 
-// * jwt and cookie
-const { sign } = require('jsonwebtoken')
-const { serialize } = require('cookie')
-const JWT_SECRET = process.env.JWT_SECRET
-
 router.post('/register', async (req, res) => {
     let data = req.body
     // console.log(data)
