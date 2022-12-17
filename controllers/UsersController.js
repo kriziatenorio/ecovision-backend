@@ -57,10 +57,10 @@ router.post('/register', async (req, res) => {
 });
 
 // * LOGIN USER
-router.post('/login', async (req, res) => {
+router.post('/login', (req, res) => {
     let data = req.body
 
-    await signInWithEmailAndPassword(auth, data.email, data.password)
+    signInWithEmailAndPassword(auth, data.email, data.password)
         .then(userCredential => {
             res.json({
                 success: true,
