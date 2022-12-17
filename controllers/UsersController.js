@@ -66,36 +66,15 @@ router.post('/login', async (req, res) => {
     let data = req.body
 
     res.json(data)
-    // await signInWithEmailAndPassword(auth, data.email, data.password)
-    //     .then(userCredential => {
-    //         // let getToken = userCredential.user.stsTokenManager.accessToken
-            
-    //         // const token = sign({
-    //         //     uid: userCredential.user.uid,
-    //         //     email: userCredential.user.email,
-    //         //     access_token: getToken,
-    //         //     token_type: 'Bearer',
-    //         //     expires_in: 3600 * 24 * 30
-    //         // }, JWT_SECRET)
-
-    //         // const serialize = serialize("ecovision-site", token, {
-    //         //     domain: "https://ecovision-three.vercel.app",
-    //         //     httpOnly: true,
-    //         //     secure: true,
-    //         //     sameSite: "strict",
-    //         //     maxAge: 3600 * 24 * 30,
-    //         //     path: "/"
-    //         // })
-
-    //         // res.set('Set-Cookie', serialize).json({ success: true })
-
-    //         res.json({
-    //             success: true,
-    //             message: `Welcome back ${userCredential._tokenResponse.displayName}!`,
-    //             data: userCredential
-    //         })
-    //     })
-    //     .catch(err => res.json(err))
+    await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then(userCredential => {
+            res.json({
+                success: true,
+                message: `Login success`,
+                data: userCredential
+            })
+        })
+        .catch(err => res.json(err))
 })
 
 router.post('/logout', async (req, res) => {
