@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const fileUpload = require('express-fileupload')
+
 const server = express()
 const cors = require("cors")
 const port = process.env.PORT
@@ -13,8 +14,8 @@ const corsOption = {
 server.use(fileUpload())
 server.use(cors(corsOption))
 server.use(express.static('public'))
-server.use(express.json())
-// server.use(express.urlencoded({extended: true}))
+// server.use(express.json())
+server.use(express.urlencoded({extended: true}))
 server.use(require('./routes/api')) // * Routers
 
 server.get('/', (req, res) => {
