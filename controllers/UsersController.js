@@ -60,16 +60,15 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     let data = req.body
 
-    res.json(data)
-    // await signInWithEmailAndPassword(auth, data.email, data.password)
-    //     .then(userCredential => {
-    //         res.json({
-    //             success: true,
-    //             message: `Login success`,
-    //             data: userCredential
-    //         })
-    //     })
-    //     .catch(err => res.json(err))
+    await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then(userCredential => {
+            res.json({
+                success: true,
+                message: `Login success`,
+                data: userCredential
+            })
+        })
+        .catch(err => res.json(err))
 })
 
 router.post('/logout', async (req, res) => {
