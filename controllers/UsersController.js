@@ -19,7 +19,6 @@ const { fixedName } = require('../helpers/util')
 
 router.post('/register', async (req, res) => {
     let data = req.body
-    // console.log(data)
     
     let name = fixedName(data.name)
     let password = data.password; // bcrypt.hashSync(data.password, salt) // * hash password here
@@ -39,28 +38,13 @@ router.post('/register', async (req, res) => {
                 .catch(err => res.status(404).json({ success: false, message: err }))
         })
         .catch(err => res.json(err))
-
-    // admin.auth().createUser({
-    //     email: data.email,
-    //     emailVerified: true,
-    //     password: password,
-    //     displayName: name
-    // }).then(record => {
-    //     const postRef = db.ref(`users/${record.uid}`)
-
-    //     postRef.set({ name: name, createdAt: Date.now() })
-    //         .then(() => {
-    //             res.status(200).json({ success: true, message: `${name} is registered successfully` })
-    //         })
-    //         .catch(err => res.status(404).json({ success: false, message: err }))
-    // }).catch(err => res.status(500).json(err))
 });
 
 // * LOGIN USER
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     let data = req.body
 
-    signInWithEmailAndPassword(auth, data.email, data.password)
+    await signInWithEmailAndPassword(auth, data.email, data.password)
         .then(userCredential => {
             res.json({
                 success: true,
