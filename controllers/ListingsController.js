@@ -1,14 +1,13 @@
 const router = require('express').Router()
 const multer  = require('multer')
-const upload = multer({ dest: 'images/' })
-
+const upload = multer({ dest: './images/',  })
 const { async } = require('@firebase/util');
 const { getDatabase, ref, child, push, update, set, remove, onValue, query, orderByValue } = require("firebase/database");
 const firebase = require('../config/firebase')
 
 const db = getDatabase(firebase);
 
-const { generateRandomString, fileUploads } = require('../helpers/util')
+const { imageUploads } = require('../helpers/util')
 
 router.get("/", (req, res) => {
     let getRef = ref(db, "listings")
@@ -20,12 +19,14 @@ router.get("/", (req, res) => {
 })
 
 // * STORE
-router.post("/", upload.array(), async (req, res) => {
-    let photos = fileUploads(req.files)
+router.post("/", upload.array('photos', 12), async (req, res) => {
+    let photos = imageUploads(req.files)
     
-    if(photos.success === false){
-        res.status(404).json(photos)
-    }
+    // let photos = fileUploads(req.files)
+    
+    // if(photos.success === false){
+    //     res.status(404).json(photos)
+    // }
 
     let data = req.body
 

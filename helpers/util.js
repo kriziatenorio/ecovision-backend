@@ -29,7 +29,7 @@ exports.generateRandomString = (count) =>{
 
 /**
  * upload images here
- * 
+ * ! This application works on express file-upload package
  * @param {Object} files - contains the files
  * @returns {(array|Object)} the file names uploaded
  */
@@ -87,4 +87,19 @@ exports.fileUploads = (files) => {
             photos: collectPhotos
         }
     }
+}
+
+/**
+ * upload images here
+ */
+
+exports.imageUploads = (files) => {
+    let photos = []
+    files.forEach(file => {
+        let fileNameExtension = file.originalname.split(".")[1] // get extension of the file
+
+        photos.push("/images/" + file.filename + "." + fileNameExtension)
+    });
+
+    return photos
 }
