@@ -10,10 +10,6 @@ const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = 
 const auth = getAuth()
 // const db = getDatabase(firebase)
 
-// * encryption
-const bcrypt = require('bcrypt')
-const salt = 10
-
 // * utilities
 const { fixedName } = require('../helpers/util')
 
@@ -21,7 +17,7 @@ router.post('/register', async (req, res) => {
     let data = req.body
     
     let name = fixedName(data.name)
-    let password = data.password; // bcrypt.hashSync(data.password, salt) // * hash password here
+    let password = data.password;
 
     await createUserWithEmailAndPassword(auth, data.email, password)
         .then(userCredential => {
