@@ -38,13 +38,12 @@ router.get("/", (req, res) => {
 
 // * STORE
 router.post("/", upload.array('photos', 12), async (req, res) => {
-
+    let data = req.body
     let photos = []
+    
     req.files.forEach(file => {
         photos.push("/images/" + file.filename)
     });
-
-    let data = req.body
 
     let params = {
         category: data.category,
@@ -80,14 +79,13 @@ router.get("/:id", (req, res) => {
 })
 
 // * UPDATE
-router.put("/:id", async (req, res) => {
-    let photos = fileUploads(req.files)
-    
-    if(photos.success === false){
-        res.status(404).json(photos)
-    }
-
+router.put("/:id", upload.array('photos', 12), async (req, res) => {
     let data = req.body
+    let photos = []
+
+    req.files.forEach(file => {
+        photos.push("/images/" + file.filename)
+    });
 
     let params = {
         category: data.category,
