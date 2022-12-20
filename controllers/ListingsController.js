@@ -1,42 +1,20 @@
 const router = require('express').Router()
-// const multer  = require('multer')
 const { getDatabase, ref, push, update, set, remove, onValue, query, orderByValue } = require("firebase/database");
 const firebase = require('../config/firebase')
 const db = getDatabase(firebase);
 const { generateRandomString } = require('../helpers/util')
-// const upload = multer({ 
-//     storage: multer.diskStorage({
-//         destination: (req, file, cb) => {
-//             cb(null, "./public/images") // * pass the path here
-//         },
-//         filename(req, file, callback) {
-//             let filename = file.originalname;
-//             let fileNameExtension = filename.split(".")[1]
-//             let newFileName = generateRandomString(12) + "." + fileNameExtension
-            
-//             callback(null, newFileName)
-//             // callback(null, file.originalname)
-//         }
-//     }),
-//     fileFilter: (req, file, callback) => {
-//         if (file.mimetype!== 'image/png' && file.mimetype!== 'image/jpeg' && file.mimetype!== 'image/jpg'){
-//             callback(new Error('Only png, jpeg, and jpg are allowed!'))
-//         }
-        
-//         callback(null, file.originalname);
-//     } })
 
-// router.get("/", (req, res) => {
-//     let getRef = ref(db, "listings")
+router.get("/", (req, res) => {
+    let getRef = ref(db, "listings")
 
-//     let sort = query(getRef, orderByValue('title'))
-//     onValue(sort, snapshot => {
-//         res.json(snapshot)
-//     })
-// })
+    let sort = query(getRef, orderByValue('title'))
+    onValue(sort, snapshot => {
+        res.json(snapshot)
+    })
+})
 
-// // * STORE
-// router.post("/", upload.array('photos', 12), async (req, res) => {
+// * STORE
+// router.post("/", async (req, res) => {
 //     let data = req.body
 //     let photos = []
 
