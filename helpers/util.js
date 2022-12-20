@@ -88,18 +88,3 @@ exports.fileUploads = (files) => {
         }
     }
 }
-
-/**
- * upload images here
- */
-
-exports.imageUploads = (files) => {
-    let photos = []
-    files.forEach(file => {
-        let fileNameExtension = file.originalname.split(".")[1] // get extension of the file
-
-        photos.push("/images/" + file.filename + "." + fileNameExtension)
-    });
-
-    return photos
-}
