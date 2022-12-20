@@ -26,14 +26,14 @@ const upload = multer({
         callback(null, file.originalname);
     } })
 
-router.get("/", (req, res) => {
-    let getRef = ref(db, "listings")
+// router.get("/", (req, res) => {
+//     let getRef = ref(db, "listings")
 
-    let sort = query(getRef, orderByValue('title'))
-    onValue(sort, snapshot => {
-        res.json(snapshot)
-    })
-})
+//     let sort = query(getRef, orderByValue('title'))
+//     onValue(sort, snapshot => {
+//         res.json(snapshot)
+//     })
+// })
 
 // // * STORE
 // router.post("/", upload.array('photos', 12), async (req, res) => {
