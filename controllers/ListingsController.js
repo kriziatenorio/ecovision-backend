@@ -52,19 +52,13 @@ router.get("/:id", (req, res) => {
 // * UPDATE
 router.put("/:id", async (req, res) => {
     let data = req.body
-    let photos = []
-
-    // req.files.forEach(file => {
-    //     photos.push("/images/" + file.filename)
-    // });
-
     let params = {
         category: data.category,
         title: data.title,
         condition: data.condition,
         price: data.price,
         description: data.description,
-        photos: photos,
+        photo: data.photo,
         shipping: data.shipping,
         payment: data.payment
     }
