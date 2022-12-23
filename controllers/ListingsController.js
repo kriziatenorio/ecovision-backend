@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getDatabase, ref, push, update, set, remove, onValue, query, orderByValue } = require("firebase/database");
+const { getDatabase, ref, child, push, update, set, remove, onValue, query, orderByValue, orderByChild, equalTo, get } = require("firebase/database");
 const firebase = require('../config/firebase')
 const db = getDatabase(firebase);
 const { generateRandomString } = require('../helpers/util')
@@ -95,7 +95,20 @@ router.delete("/:key", async (req, res) => {
 })
 
 router.get('/me/:id', async (req, res) => {
-    
+
+    let queryRef = query(ref(db, 'listings'), orderByChild('user'), equalTo(req.params.id))
+
+    get(queryRef).then(snapshot => {
+        let newArr = []
+        const data = snapshot.val()
+
+        for (const key in data) {
+            data[key].id = key
+            newArr.push(data[key])
+        }
+
+        res.json(newArr)
+    })
 })
 
 module.exports = router
