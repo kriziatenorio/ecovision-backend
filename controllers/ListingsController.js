@@ -7,13 +7,15 @@ const { generateRandomString } = require('../helpers/util')
 router.get("/", (req, res) => {
     let getRef = ref(db, "listings")
 
-    let sort = query(getRef, orderByValue('title'))
+    let sort = query(getRef, orderByValue())
     onValue(sort, snapshot => {
+
         let resp = snapshot.val()
         let newArr = []
         for (const key in resp) {
             resp[key].id = key
             newArr.push(resp[key])
+            // newArr = Object.assign(resp, newArr)
         }
 
         res.json(newArr)
