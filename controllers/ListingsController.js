@@ -9,7 +9,14 @@ router.get("/", (req, res) => {
 
     let sort = query(getRef, orderByValue('title'))
     onValue(sort, snapshot => {
-        res.json(snapshot)
+        let resp = snapshot.val()
+        let newArr = []
+        for (const key in resp) {
+            resp[key].id = key
+            newArr.push(resp[key])
+        }
+
+        res.json(newArr)
     })
 })
 
