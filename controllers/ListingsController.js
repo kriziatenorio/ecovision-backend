@@ -34,11 +34,10 @@ router.post("/", async (req, res) => {
         photo: data.photo,
         shipping: data.shipping,
         payment: data.payment,
-        // user: data.user
+        user: data.user_uid
     }
 
     const postRef = ref(db, '/listings')
-
     const newPostRef = push(postRef)
     
     await set(newPostRef, params)
@@ -69,7 +68,8 @@ router.put("/:id", async (req, res) => {
         description: data.description,
         photo: data.photo,
         shipping: data.shipping,
-        payment: data.payment
+        payment: data.payment,
+        user: data.user_uid
     }
 
     await update(ref(db, 'listings/' + req.params.id), params)
@@ -92,6 +92,10 @@ router.delete("/:key", async (req, res) => {
         .catch(err => {
             res.json({ success: false, message: err })
         })
+})
+
+router.get('/me/:id', async (req, res) => {
+    
 })
 
 module.exports = router
