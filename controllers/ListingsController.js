@@ -129,4 +129,12 @@ router.post('/:id/comment', async (req, res) => {
         })
 })
 
+router.get('/:id/comments', async (req, res) => {
+    const getRef = ref(db, 'comments')
+
+    onValue(getRef, (snapshot) => {
+        res.json(snapshot.val())
+    })
+})
+
 module.exports = router
