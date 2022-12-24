@@ -111,4 +111,22 @@ router.get('/me/:id', async (req, res) => {
     })
 })
 
+router.post('/:id/comment', async (req, res) => {
+    const postRef = ref(db, 'comments')
+    const newPostRef = push(postRef)
+
+    const params = {
+        listing: req.params.id,
+        question: req.body.question
+    }
+
+    await set(newPostRef, params)
+        .then(() => {
+            res.json({ success: true, message: `Comment added successfully` })
+        })
+        .catch(err => {
+            res.json({ success: false, message: err })
+        })
+})
+
 module.exports = router
