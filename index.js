@@ -8,8 +8,6 @@ const port = process.env.PORT
 const corsOption = {
     origin: [
         'http://127.0.0.1:3000', 
-        'http://127.0.0.1:3001', 
-        // 'https://ecovision-three.vercel.app', 
         'https://ecovision-frontend.vercel.app'
     ]
 };
