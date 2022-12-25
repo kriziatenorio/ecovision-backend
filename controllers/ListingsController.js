@@ -130,10 +130,18 @@ router.post('/:id/comment', async (req, res) => {
 })
 
 router.get('/:id/comments', async (req, res) => {
-    const getRef = ref(db, 'comments')
+    const queryRef = query(ref(db, 'comments'), orderByChild('listing'), equalTo(req.params.id))
 
-    onValue(getRef, (snapshot) => {
-        res.json(snapshot.val())
+    get(queryRef).then(snapshot => {
+        let newArr = []
+        const data = snapshot.val()
+
+        for (const key in data) {
+            data[key].id = key
+            newArr.push(data[key])
+        }
+        
+        res.json(newArr)
     })
 })
 
